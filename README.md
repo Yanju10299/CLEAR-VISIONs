@@ -1,92 +1,100 @@
-# 🔍 Clear Vision: Deep Generative Image Restoration
+🖼️ Image Restoration Using Deep Generative Models
+🧠 Problem Statement
+Image degradation is common in real-world visual data due to noise, compression artifacts, occlusion, or partial corruption. This project builds an image restoration system that can recover and reconstruct high-quality images from degraded inputs using deep generative models.
 
-Clear Vision is a deep learning-based image restoration project that aims to reconstruct high-quality images from degraded inputs using generative models. This system simulates real-world image corruptions (noise, compression artifacts, occlusion, etc.) and restores them using powerful models like Variational Autoencoders (VAEs), Generative Adversarial Networks (GANs), and Diffusion Models.
+The goal is to design a model that restores corrupted images to clean, high-fidelity versions and provides a user-friendly interface for image upload, restoration, and download.
 
----
+📁 Project Structure
+image-restoration-project/
+├── app.py # Streamlit web app
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
+├── dataset/ # Original and corrupted image dataset
+│ ├── original/
+│ ├── corrupted/
+│ ├── train/
+│ ├── val/
+│ ├── test/
+│ └── corrupted_info/
+├── model_training/
+│ └── model_after_training/ # Trained RealESRGAN model
+├── utils/
+│ ├── image_scraper.py # Selenium-based image downloader
+│ ├── corruption_utils.py # Functions to apply 10 image corruptions
+│ ├── split_dataset.py # Script to split dataset into train/val/test
+│ └── evaluation.py # Computes PSNR, SSIM, LPIPS, and latency
+├── visuals/
+│ ├── varify.py # Side-by-side visualization (original vs corrupted)
+│ └── visualize_samples.py # Random dataset sample viewer
+📦 Deliverables
+✅ Selenium-based image scraper to gather raw image data
+✅ Custom image corruption module (corruption_utils.py) with:
+Gaussian Noise
+Salt & Pepper Noise
+Speckle Noise
+Mild Blur
+Motion Blur
+JPEG Compression
+Low Brightness
+Low Contrast
+Occlusion
+Compression Artifacts
+✅ CelebA-HQ dataset as the clean image base
+✅ Train/Validation/Test splits with separate original/ and corrupted/ folders
+✅ Visual comparison scripts (visuals/) to view corrupted vs original side-by-side
+✅ Model training using RealESRGANer + RRDBNet
+✅ Streamlit-based web application to upload, restore, and download images
+✅ evaluation.py script to compute:
+PSNR
+SSIM
+LPIPS
+Inference Latency
+🛠️ Tech Stack / Frameworks
+💻 Machine Learning
+PyTorch
+RealESRGAN
+RRDBNet
+🌐 Web Interface
+Streamlit
+🕸 Web Scraping
+Selenium
+📊 Evaluation Metrics
+Metric	Description
+PSNR	Measures the signal-to-noise ratio between restored and original images
+SSIM	Structural Similarity Index for perceptual quality
+LPIPS	Learned Perceptual Image Patch Similarity for feature-space accuracy
+Latency	Time taken for model inference during image restoration
+Use the following command to run evaluations:
 
-## 📌 Problem Statement
+python utils/evaluation.py
+🚀 How It Works
+Image Collection
 
-Image degradation is a common challenge in real-world data. Factors such as noise, lossy compression, occlusions, and missing pixels significantly reduce image quality. The goal of this project is to develop an image restoration pipeline that:
-- Simulates realistic image degradation.
-- Restores degraded images to high-fidelity outputs using deep generative models.
-- Evaluates restoration quality using standard metrics.
-- Offers a user-friendly interface for image upload and restoration preview.
+Use utils/image_scraper.py to collect original images from the web.
+Dataset Preparation
 
----
+Corrupt images using utils/corruption_utils.py.
+Split the dataset using utils/split_dataset.py.
+Training
 
-## ✅ Deliverables
+Train your RealESRGANer model on the dataset.
+Save checkpoints in model_training/model_after_training/.
+Visualization
 
-- ✔️ Selenium-based image scraper for dataset generation.
-- ✔️ Custom image corruption module to simulate real-world degradation.
-- ✔️ Implementation of one or more restoration models:
-  - Variational Autoencoder (VAE)
-  - Generative Adversarial Network (GAN)
-  - Diffusion Model
-- ✔️ Evaluation metrics:
-  - PSNR (Peak Signal-to-Noise Ratio)
-  - SSIM (Structural Similarity Index)
-  - LPIPS (Learned Perceptual Image Patch Similarity)
-  - Inference latency measurement
-- ✔️ Web interface (Streamlit) or Mobile interface (Flutter) for real-time testing.
+View original vs corrupted samples using:
+visuals/varify.py
+visuals/visualize_samples.py
+Web App
 
----
-
-## 🧪 Tech Stack / Frameworks
-
-| Component        | Stack                  |
-|------------------|------------------------|
-| Machine Learning | PyTorch / TensorFlow   |
-| Web Interface    | Streamlit              |
-| Web Scraping     | Selenium               |
-| Evaluation       | NumPy, scikit-image, LPIPS |
-
----
-
-## 📂 Dataset
-
-- **Source**: Scraped using a Selenium-based automated crawler.
-- **Structure**:
-  - `train/`: Clean images for training
-  - `test/`: Clean images for testing
-  - `corrupted/`: Corresponding degraded versions
-
----
-
-## 🧠 Models
-
-### ✅ Variational Autoencoder (VAE)
-- Latent space reconstruction  
-- Optimized for pixel-wise loss
-
-### ✅ Generative Adversarial Network (GAN)
-- Generator-Discriminator framework  
-- Superior perceptual quality with adversarial loss
-
-### ✅ Diffusion Model
-- Iterative denoising process  
-- State-of-the-art performance on image generation/restoration
-
----
-
-## 📊 Evaluation Metrics
-
-| Metric              | Description                                                        |
-|---------------------|--------------------------------------------------------------------|
-| **PSNR**            | Measures pixel-level similarity (higher is better)                |
-| **SSIM**            | Structural similarity index for perceptual quality                |
-| **LPIPS**           | Learned perceptual similarity using deep features                 |
-| **Inference Latency** | Time taken to restore one image (evaluates speed of inference)     |
-
-## 🖥 Web Interface (Streamlit)
-
-The Streamlit-based web interface allows users to:
-
-- 📤 Upload a degraded image  
-- 👁️ Preview the restored output  
-- 📊 Compare restoration quality metrics  
-- 💾 Download the restored result
-
-### ▶️ To Run the Streamlit App:
-
-```bash
+Launch the interface using:
 streamlit run app.py
+Upload a corrupted image to preview and download the restored version.
+✅ Example Commands
+# Run the web application
+streamlit run app.py
+
+# Evaluate model performance
+python utils/evaluation.py
+
+# Visualize original vs corrupted samples
+python visuals/varify.py
